@@ -1,0 +1,19 @@
+#main {
+    background: #4c1130;
+    color: white;
+}
+.title svg{
+  width: 1em;
+  height: 1em;
+}
+.linea {
+  border-top: 1px solid #9999;
+  height: 4px;
+  margin-bottom: 0.5rem;
+}
+.intext {
+  margin-bottom: 0.3rem;
+}
+.intext::-webkit-input-placeholder {
+    text-align: center;
+}

@@ -1,0 +1,10 @@
+#header {
+    background: #4c1130;
+    color: white;
+    font-size: large;
+  }
+  #header svg{
+    width: 1.5em;
+    height: 1.5em;
+    color: white;
+  }

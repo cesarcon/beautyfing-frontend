@@ -1,0 +1,16 @@
+.form input {
+    width: 100%;
+}
+
+.table img {
+    max-width: 100px;
+}
+
+.card img {
+    max-width: 250px;
+}
+
+
+body {
+    font-family: cursive;
+}

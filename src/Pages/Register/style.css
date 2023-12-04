@@ -1,0 +1,18 @@
+.form input{
+    width: 100%;
+  }
+
+  .form button {
+    width: 100%;
+  }
+  .intext {
+    margin-bottom: 0.3rem;
+  }
+  .intext::-webkit-input-placeholder {
+      text-align: center;
+  }
+
+  #google {
+    width: 1.5em;
+    height: 1.5em;
+  }
