@@ -35,7 +35,7 @@ const AppRoutes = () => {
 function App() {
   return (
     <ShoppingCarProvider>
-      <BrowserRouter>
+      <BrowserRouter >
         <NavBar />
         <AppRoutes />
       </BrowserRouter>

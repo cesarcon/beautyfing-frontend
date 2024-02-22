@@ -10,7 +10,7 @@ function Register() {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch ('http://localhost:5000/users', {
+            const response = await fetch('http://localhost:5000/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ function Register() {
 
     const [formulario, setFormulario] = useState(
         {
-            nombre: '', numeroDocumento: '', numeroTelefono: '', edad: 0,
+            nombre: '', numeroDocumento: '', numeroTelefono: '', edad: undefined,
             genero: '', ciudad: '', direccion: '', email: '', password: '',
             idTipoUsuario: 1
         }
@@ -130,12 +130,17 @@ function Register() {
                                                 }} value={formulario.edad} />
                                         </div>
                                         <div className="col-6 pb-1">
-                                            <input type="text" placeholder="Genero"
+                                            <select className="form-select" aria-label="Default select example"
                                                 onChange={(e) => {
                                                     setFormulario(
                                                         { ...formulario, ['genero']: e.target.value }
                                                     )
-                                                }} value={formulario.genero} />
+                                                }} value={formulario.genero}>
+                                                <option selected>Genero: </option>
+                                                <option value="Masculino">Masculino</option>
+                                                <option value="Femenino">Femenino</option>
+                                            </select>
+
                                         </div>
                                         <div className="col-12 col-md-6 pb-1">
                                             <input type="text" placeholder="Ciudad"
@@ -162,12 +167,12 @@ function Register() {
                                                 }} value={formulario.email} />
                                         </div>
                                         <div className="col-12 col-md-6 pb-1">
-                                            <input type="password" placeholder="Contraseña" 
-                                            onChange={(e) => {
-                                                setFormulario(
-                                                    { ...formulario, ['password']: e.target.value }
-                                                )
-                                            }}/>
+                                            <input type="password" placeholder="Contraseña"
+                                                onChange={(e) => {
+                                                    setFormulario(
+                                                        { ...formulario, ['password']: e.target.value }
+                                                    )
+                                                }} />
                                         </div>
                                     </div>
                                     <div>

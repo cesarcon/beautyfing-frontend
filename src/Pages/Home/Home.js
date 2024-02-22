@@ -45,7 +45,7 @@ function Home() {
                                 </Link>
                                 <span className="pt-2 pb-2" style={{ color: "red", fontSize: "large" }}><strong>Si ya tienes cuenta
                                     creada:</strong></span>
-                                <Link to="/login"
+                                <Link to="/sign-in"
                                 className="btn btn-primary" style={{ background: "#741b47", borderColor: "black" }}>
                                 Ingresa aquí
                                 </Link>
