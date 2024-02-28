@@ -3,12 +3,24 @@ import { useNavigate } from "react-router-dom";
 import { Layout } from "../../Components/Layout/Layout";
 import "./style.css"
 import { FeaturedUsers } from "../../Components/FeaturedUsers/FeaturedUsers";
+import Swal from "sweetalert2";
 
 function Register() {
 
     const navigate = useNavigate();
     const onSubmit = async (e) => {
         e.preventDefault();
+        if (!formulario.nombre || !formulario.password) {      
+            Swal.fire({
+                icon: "error",
+                title: "Error de validacion",
+                text: "Quedaron campos obligatorios sin llenar"
+              });
+            return;
+        }
+        if(formulario.password.length <4) {
+            alert("El password debe ser de minimo 4 caracteres");
+        }
         try {
             const response = await fetch('http://localhost:5000/users', {
                 method: 'POST',
@@ -93,8 +105,8 @@ function Register() {
                                                     )
                                                 }}>
                                                 <option selected>Registrarse como: </option>
-                                                <option value="1">Comprador</option>
-                                                <option value="2">Vendedor</option>
+                                                <option value="1">Vendedor</option>
+                                                <option value="2">Comprador</option>
                                             </select>
                                         </div>
                                         <div className="col-12 pb-1">
@@ -122,7 +134,8 @@ function Register() {
                                                 }} value={formulario.numeroTelefono} />
                                         </div>
                                         <div className="col-6 pb-1">
-                                            <input type="number" placeholder="Tu edad"
+                                            <label>Fecha de nacimiento</label>
+                                            <input type="date" placeholder="Fecha de nacimiento"
                                                 onChange={(e) => {
                                                     setFormulario(
                                                         { ...formulario, ['edad']: e.target.value }
@@ -171,6 +184,14 @@ function Register() {
                                                 onChange={(e) => {
                                                     setFormulario(
                                                         { ...formulario, ['password']: e.target.value }
+                                                    )
+                                                }} />
+                                        </div>
+                                        <div className="col-12 col-md-6 pb-1">
+                                            <input type="text" placeholder="Url foto"
+                                                onChange={(e) => {
+                                                    setFormulario(
+                                                        { ...formulario, ['imagenPrincipal']: e.target.value }
                                                     )
                                                 }} />
                                         </div>
