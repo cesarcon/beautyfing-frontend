@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCarContext } from "../../Context";
 import { Layout } from "../../Components/Layout/Layout";
+import Swal from "sweetalert2";
 
 function SignIn() {
 
@@ -32,6 +33,7 @@ function SignIn() {
                 body: JSON.stringify(formData)
             }).then(response => response.json())
             .then(data => {
+                console.log(data);
                 return data;
             });
             if (user != null) {
@@ -43,6 +45,12 @@ function SignIn() {
         } catch (error) {
             console.error('Error en la solicitud: ', error);
             context.setIsLogged(false);
+            Swal.fire({
+                icon: "error",
+                title: "Credenciales incorrectas",
+                text: "El usuario y/o contraseña no corresponden a un usuario creado"
+              });
+            return;
             navigate('/sign-in');
         }
 

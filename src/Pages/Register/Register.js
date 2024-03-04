@@ -19,7 +19,11 @@ function Register() {
             return;
         }
         if(formulario.password.length <4) {
-            alert("El password debe ser de minimo 4 caracteres");
+            Swal.fire({
+                icon: "error",
+                title: "Error de validacion",
+                text: "El password debe ser de minimo 4 caracteres"
+              });
         }
         try {
             const response = await fetch('http://localhost:5000/users', {
@@ -30,6 +34,11 @@ function Register() {
                 body: JSON.stringify(formulario)
             });
             if (response.ok) {
+                Swal.fire({
+                    title: "Ok!",
+                    text: "Usuario creado correctamente!",
+                    icon: "success"
+                  });
                 navigate('/shop');
             }
         } catch (error) {
@@ -40,7 +49,7 @@ function Register() {
 
     const [formulario, setFormulario] = useState(
         {
-            nombre: '', numeroDocumento: '', numeroTelefono: '', edad: undefined,
+            nombre: '', numeroDocumento: '', numeroTelefono: '', fechaNacimiento: undefined,
             genero: '', ciudad: '', direccion: '', email: '', password: '',
             idTipoUsuario: 1
         }
@@ -138,7 +147,7 @@ function Register() {
                                             <input type="date" placeholder="Fecha de nacimiento"
                                                 onChange={(e) => {
                                                     setFormulario(
-                                                        { ...formulario, ['edad']: e.target.value }
+                                                        { ...formulario, ['fechaNacimiento']: e.target.value }
                                                     )
                                                 }} value={formulario.edad} />
                                         </div>
