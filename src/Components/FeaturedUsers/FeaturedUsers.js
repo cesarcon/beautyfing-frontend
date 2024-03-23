@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
 import "./index.css";
+import Swal from "sweetalert2";
 
 function FeaturedUsers() {
     const [usuariosDestacados, setUsuariosDestacados] = useState([]);
     useEffect(() => {
         fetch('http://localhost:5000/users/destacados')
             .then(response => response.json())
-            .then(data => setUsuariosDestacados(data));
+            .then(data => setUsuariosDestacados(data))
+            .catch(e => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Algo falló!",
+                    footer: 'No se pudo cargar la información de los usuarios destacados'
+                  });
+            });
     }, []);
     const estrellasLlenas = (numero) => {
         return Math.trunc(numero);
