@@ -10,20 +10,28 @@ function Register() {
     const navigate = useNavigate();
     const onSubmit = async (e) => {
         e.preventDefault();
-        if (!formulario.nombre || !formulario.password) {      
+        if (error.length > 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Error de validacion",
+                text: "Las contraseñas no coinciden"
+            });
+            return;
+        }
+        if (!formulario.nombre || !formulario.password) {
             Swal.fire({
                 icon: "error",
                 title: "Error de validacion",
                 text: "Quedaron campos obligatorios sin llenar"
-              });
+            });
             return;
         }
-        if(formulario.password.length <4) {
+        if (formulario.password.length < 4) {
             Swal.fire({
                 icon: "error",
                 title: "Error de validacion",
                 text: "El password debe ser de minimo 4 caracteres"
-              });
+            });
         }
         try {
             const response = await fetch('http://localhost:5000/users', {
@@ -38,7 +46,7 @@ function Register() {
                     title: "Ok!",
                     text: "Usuario creado correctamente!",
                     icon: "success"
-                  });
+                });
                 navigate('/shop');
             }
         } catch (error) {
@@ -54,6 +62,31 @@ function Register() {
             idTipoUsuario: 1
         }
     );
+    const [error, setError] = useState('');
+    const [contrasenia, setContrasenia] = useState('');
+    const [confirmarContrasenia, setConfirmarContrasenia] = useState('');
+
+    const handleChangeContrasenia = (event) => {
+        setContrasenia(event.target.value);
+        if (event.target.value !== confirmarContrasenia) {
+            setError('Las contraseñas no coinciden');
+        } else {
+            setError('');
+            setFormulario(
+                { ...formulario, ['password']: event.target.value }
+            )
+        }
+    };
+    const handleChangeConfirmarContrasenia = (event) => {
+        if (event.target.value !== contrasenia) {
+            setError('Las contraseñas no coinciden');
+        } else {
+            setError('');
+            setFormulario(
+                { ...formulario, ['password']: event.target.value }
+            )
+        }
+    };
     return (
         <Layout>
             <main id="main" className="pt-3 pb-3">
@@ -73,7 +106,7 @@ function Register() {
                         <hr />
                     </div>
                     <div className="row">
-                        <div className="col-12 col-md">
+                        <div className="col-12 col-lg">
                             <h3>
                                 La mejor manera de contactar el profesional en estética y belleza
                                 que se ajusta a tus necesidades
@@ -87,7 +120,7 @@ function Register() {
                                 disferestes pasarelas de pago en linea
                             </p>
                         </div>
-                        <div className="col-12 col-md text-center">
+                        <div className="col-12 col-lg text-center">
                             <div className="card pt-3 pb-3 px-4">
                                 <h3>Registrate Aqui</h3>
                                 <div className="row">
@@ -104,43 +137,50 @@ function Register() {
                                     Sign in with Google
                                 </button>
                                 <span className="pt-2">O use su direccion de correo electrónico</span>
+                                <div className="row">
+                                    <div className="col linea mt-3"></div>
+                                    <div className="col linea mt-3"></div>
+                                </div>
                                 <form className="form" onSubmit={onSubmit}>
                                     <div className="row pt-2 pb-2">
-                                        <div className="col-12 pb-1">
+                                        <div className="col-12 pb-2 form-floating">
                                             <select className="form-select" aria-label="Default select example"
                                                 onChange={(e) => {
                                                     setFormulario(
                                                         { ...formulario, ['idTipoUsuario']: e.target.value }
                                                     )
                                                 }}>
-                                                <option selected>Registrarse como: </option>
                                                 <option value="1">Vendedor</option>
                                                 <option value="2">Comprador</option>
                                             </select>
+                                            <label>Registrarse como:</label>
                                         </div>
-                                        <div className="col-12 pb-1">
-                                            <input type="text" placeholder="Tu nombre completo"
+                                        <div className="col-12 form-floating pb-2">
+                                            <input className="form-control" type="text" placeholder="Tu nombre completo"
                                                 onChange={(e) => {
                                                     setFormulario(
                                                         { ...formulario, ['nombre']: e.target.value }
                                                     )
                                                 }} value={formulario.nombre} />
+                                            <label>Tu nombre completo</label>
                                         </div>
-                                        <div className="col-12 col-lg-6 pb-1">
-                                            <input type="text" placeholder="Número de documento"
+                                        <div className="col-12 col-md-6 pb-1 form-floating">
+                                            <input className="form-control" type="text" placeholder="Número de documento"
                                                 onChange={(e) => {
                                                     setFormulario(
                                                         { ...formulario, ['numeroDocumento']: e.target.value }
                                                     )
-                                                }} value={formulario.documento} />
+                                                }} value={formulario.numeroDocumento} />
+                                            <label>Número de documento</label>
                                         </div>
-                                        <div className="col-12 col-lg-6 pb-1">
-                                            <input type="text" placeholder="Tu numero de telefono"
+                                        <div className="col-12 col-md-6 pb-1 form-floating">
+                                            <input className="form-control" type="text" placeholder="Tu numero de telefono"
                                                 onChange={(e) => {
                                                     setFormulario(
                                                         { ...formulario, ['numeroTelefono']: e.target.value }
                                                     )
                                                 }} value={formulario.numeroTelefono} />
+                                            <label>Tu numero de telefono</label>
                                         </div>
                                         <div className="col-6 pb-1">
                                             <label>Fecha de nacimiento</label>
@@ -149,60 +189,68 @@ function Register() {
                                                     setFormulario(
                                                         { ...formulario, ['fechaNacimiento']: e.target.value }
                                                     )
-                                                }} value={formulario.edad} />
+                                                }} value={formulario.fechaNacimiento} />
                                         </div>
-                                        <div className="col-6 pb-1">
+                                        <div className="col-6 pb-1 form-floating">
                                             <select className="form-select" aria-label="Default select example"
                                                 onChange={(e) => {
                                                     setFormulario(
                                                         { ...formulario, ['genero']: e.target.value }
                                                     )
                                                 }} value={formulario.genero}>
-                                                <option selected>Genero: </option>
                                                 <option value="Masculino">Masculino</option>
                                                 <option value="Femenino">Femenino</option>
                                             </select>
-
+                                            <label>Genero:</label>
                                         </div>
-                                        <div className="col-12 col-md-6 pb-1">
-                                            <input type="text" placeholder="Ciudad"
-                                                onChange={(e) => {
-                                                    setFormulario(
-                                                        { ...formulario, ['ciudad']: e.target.value }
-                                                    )
-                                                }} value={formulario.ciudad} />
-                                        </div>
-                                        <div className="col-12 col-md-6 pb-1">
-                                            <input type="text" placeholder="Dirección"
-                                                onChange={(e) => {
-                                                    setFormulario(
-                                                        { ...formulario, ['direccion']: e.target.value }
-                                                    )
-                                                }} value={formulario.direccion} />
-                                        </div>
-                                        <div className="col-12 col-md-6 pb-1">
-                                            <input type="email" placeholder="Tu correo electrónico"
-                                                onChange={(e) => {
-                                                    setFormulario(
-                                                        { ...formulario, ['email']: e.target.value }
-                                                    )
-                                                }} value={formulario.email} />
-                                        </div>
-                                        <div className="col-12 col-md-6 pb-1">
-                                            <input type="password" placeholder="Contraseña"
-                                                onChange={(e) => {
-                                                    setFormulario(
-                                                        { ...formulario, ['password']: e.target.value }
-                                                    )
-                                                }} />
-                                        </div>
-                                        <div className="col-12 col-md-6 pb-1">
-                                            <input type="text" placeholder="Url foto"
+                                        <div className="col-12 col-md-6 pb-1 form-floating">
+                                            <input className="form-control" type="text" placeholder="Url foto"
                                                 onChange={(e) => {
                                                     setFormulario(
                                                         { ...formulario, ['imagenPrincipal']: e.target.value }
                                                     )
                                                 }} />
+                                            <label>Url foto:</label>
+                                        </div>
+                                        <div className="col-12 col-md-6 pb-1 form-floating">
+                                            <input className="form-control" type="text" placeholder="Ciudad"
+                                                onChange={(e) => {
+                                                    setFormulario(
+                                                        { ...formulario, ['ciudad']: e.target.value }
+                                                    )
+                                                }} value={formulario.ciudad} />
+                                            <label>Ciudad:</label>
+                                        </div>
+                                        <div className="col-12 pb-1 form-floating">
+                                            <input className="form-control" type="text" placeholder="Dirección"
+                                                onChange={(e) => {
+                                                    setFormulario(
+                                                        { ...formulario, ['direccion']: e.target.value }
+                                                    )
+                                                }} value={formulario.direccion} />
+                                            <label>Dirección:</label>
+                                        </div>
+                                        <div className="col-12 pb-1 form-floating">
+                                            <input className="form-control" type="email" placeholder="Tu correo electrónico"
+                                                onChange={(e) => {
+                                                    setFormulario(
+                                                        { ...formulario, ['email']: e.target.value }
+                                                    )
+                                                }} value={formulario.email} />
+                                            <label>Tu correo electrónico:</label>
+                                        </div>
+                                        <div className="col-12 col-md-6 pb-1 form-floating">
+                                            <input className="form-control" type="password" placeholder="Contraseña"
+                                                onChange={handleChangeContrasenia} />
+                                            <label>Contraseña:</label>
+                                        </div>
+                                        <div className="col-12 col-md-6 pb-1 form-floating">
+                                            <input className="form-control" type="password" placeholder="Contraseña"
+                                                onChange={handleChangeConfirmarContrasenia}
+                                                style={{ borderColor: error ? 'red' : '' }}
+                                            />
+                                            <label>Confirma tu contraseña:</label>
+                                            {error && <p style={{ color: 'red', fontSize: 'x-small' }}>{error}</p>}
                                         </div>
                                     </div>
                                     <div>
