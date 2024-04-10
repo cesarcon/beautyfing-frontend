@@ -20,10 +20,6 @@ function Usuarios() {
             });
         ;
     }, []);
-    const mostrarHora = () => {
-        const now = new Date().toLocaleString('en-US', { timeZone: 'UTC' });
-        console.log(now);
-    }
 
     const traerTipoUsuario = (idTipoUsuario) => {
         switch (idTipoUsuario) {
@@ -104,7 +100,17 @@ function Usuarios() {
                                         <td>{usuario.ciudad}</td>
                                         <td>{traerTipoUsuario(usuario.idTipoUsuario)}</td>
                                         <td>{usuario.puntuacion}</td>
-                                        <ModalUsuario usuario={usuario} actualizarTabla={actualizarTabla}/>
+                                        <td>
+                                            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#exampleModal${usuario.idUsuario}`}>
+                                                Actualizar
+                                            </button>
+
+                                            <div className="modal fade" id={`exampleModal${usuario.idUsuario}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div className="modal-dialog">
+                                                <ModalUsuario usuario={usuario} actualizarTabla={actualizarTabla} />
+                                                </div>
+                                            </div></td>
+                                        
 
                                         <td><button onClick={() => {
                                             Swal.fire({
