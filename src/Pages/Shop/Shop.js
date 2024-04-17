@@ -36,6 +36,7 @@ function Shop() {
       <ProductsList>
         {filteredList?.map(producto => (
           <Product
+            key={producto.idServicio}
             product={producto} />
         )
         )}

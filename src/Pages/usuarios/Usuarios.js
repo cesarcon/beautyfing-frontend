@@ -1,13 +1,24 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Layout } from "../../Components/Layout/Layout";
 import Swal from "sweetalert2";
 import { ModalUsuario } from "../../Components/Usuarios/ModalUsuario";
+import { useNavigate } from "react-router-dom";
+import { ShoppingCarContext } from "../../Context";
 
 
 function Usuarios() {
+    const context = useContext(ShoppingCarContext);
+    const navigate = useNavigate();
     const [usuarios, setUsuarios] = useState([]);
-    useEffect(() => {
-        fetch('http://localhost:5000/users')
+    const consultarUsuarios = () => {
+        const options = {
+            method: 'GET', // Método HTTP
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.getItem('token')
+            }
+        };
+        fetch('http://localhost:5000/users', options)
             .then(response => response.json())
             .then(data => setUsuarios(data))
             .catch(e => {
@@ -19,6 +30,14 @@ function Usuarios() {
                 });
             });
         ;
+    }
+    useEffect(() => {
+        if (!sessionStorage.getItem('login')?.isAdmin) {
+            context.handleSignOut();
+            navigate('/sign-in');
+        }
+        consultarUsuarios();
+        
     }, []);
 
     const traerTipoUsuario = (idTipoUsuario) => {
@@ -31,19 +50,13 @@ function Usuarios() {
                 return '';
         }
     }
-    const actualizarTabla = () => {
-        fetch('http://localhost:5000/users')
-            .then(response => response.json())
-            .then(data => setUsuarios(data));
-        ;
-    }
     const borrar = (id) => {
         const url = 'http://localhost:5000/users/'.concat(id).concat('/delete');
         const options = {
             method: 'DELETE', // Método HTTP
             headers: {
-                'Content-Type': 'application/json' // Tipo de contenido que se está enviando (si es necesario)
-                // Puedes añadir otros encabezados aquí según sea necesario
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.getItem('token')
             }
         };
         fetch(url, options)
@@ -56,7 +69,7 @@ function Usuarios() {
                     text: "El usuario ha sido borrado.",
                     icon: "success"
                 });
-                actualizarTabla();
+                consultarUsuarios();
                 return response.json(); // Convertir la respuesta a JSON si es necesario
             })
             .then(data => {
@@ -107,7 +120,7 @@ function Usuarios() {
 
                                             <div className="modal fade" id={`exampleModal${usuario.idUsuario}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div className="modal-dialog">
-                                                <ModalUsuario usuario={usuario} actualizarTabla={actualizarTabla} />
+                                                <ModalUsuario usuario={usuario} actualizarTabla={consultarUsuarios} />
                                                 </div>
                                             </div></td>
                                         

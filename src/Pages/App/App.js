@@ -15,6 +15,7 @@ import './App.css';
 import { NavBar } from '../../Components/NavBar/NavBar';
 import { SignIn } from '../SignIn/SignIn';
 import { Usuarios } from '../usuarios/Usuarios';
+import { Servicios } from '../servicios/Servicios';
 
 const AppRoutes = () => {
   let routes = useRoutes([
@@ -29,6 +30,7 @@ const AppRoutes = () => {
     { path: '/shopping-car', element: <ShoppingCar /> },
     { path: '/success', element: <Success /> },
     { path: '/usuarios', element: <Usuarios /> },
+    { path: '/servicios', element: <Servicios /> },
     { path: '*', element: <NotFound /> },
   ])
   return routes;

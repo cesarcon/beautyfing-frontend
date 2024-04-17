@@ -16,8 +16,8 @@ function ModalUsuario({ usuario, actualizarTabla }) {
         const options = {
             method: 'PUT', // Método HTTP
             headers: {
-                'Content-Type': 'application/json' // Tipo de contenido que se está enviando (si es necesario)
-                // Puedes añadir otros encabezados aquí según sea necesario
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.getItem('token')
             },
             body: JSON.stringify(formulario)
 

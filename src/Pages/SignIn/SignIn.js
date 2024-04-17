@@ -1,13 +1,12 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShoppingCarContext } from "../../Context";
 import { Layout } from "../../Components/Layout/Layout";
 import Swal from "sweetalert2";
+import { ShoppingCarContext } from "../../Context";
 
 function SignIn() {
 
-    const context = useContext(ShoppingCarContext);
-
+    const context = useContext(ShoppingCarContext)
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -22,36 +21,47 @@ function SignIn() {
     };
 
     // Función para manejar el envío del formulario
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const user = await fetch ('http://localhost:5000/users/login', {
+            const user = await fetch('http://localhost:5000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData)
             }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                return data;
-            });
+                .then(data => {
+                    return data;
+                });
             if (user != null) {
-                context.setIsLogged(true);
-                context.setUser(user);
-                console.log(user);
+                const token = user.token;
+                const claims = JSON.parse(window.atob(token.split(".")[1]));
+                console.log(claims);
+                sessionStorage.setItem('login', JSON.stringify({
+                    isAuth: true,
+                    isAdmin: claims.isAdmin,
+                    isSeller: claims.isSeller,
+                    isBuyer: claims.isBuyer,
+                    username: claims.username,
+                    idUsuario: claims.idUsuario,
+                }));
+                sessionStorage.setItem('token', `Bearer ${token}`);
+                context.setUser(JSON.parse(sessionStorage.getItem('login')))
                 navigate('/shop');
             }
         } catch (error) {
             console.error('Error en la solicitud: ', error);
-            context.setIsLogged(false);
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('login');
+            sessionStorage.clear();
             Swal.fire({
                 icon: "error",
                 title: "Credenciales incorrectas",
                 text: "El usuario y/o contraseña no corresponden a un usuario creado"
-              });
-            return;
+            });
             navigate('/sign-in');
+            return;
         }
 
         // Limpia los campos del formulario después del envío
