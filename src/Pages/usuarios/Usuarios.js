@@ -32,12 +32,12 @@ function Usuarios() {
         ;
     }
     useEffect(() => {
-        if (!sessionStorage.getItem('login')?.isAdmin) {
-            context.handleSignOut();
-            navigate('/sign-in');
+        if (!context.user?.isAdmin) {
+            navigate('/shop');
+        } else {
+            consultarUsuarios();
         }
-        consultarUsuarios();
-        
+
     }, []);
 
     const traerTipoUsuario = (idTipoUsuario) => {

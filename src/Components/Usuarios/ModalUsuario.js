@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Swal from "sweetalert2";
+import { ShoppingCarContext } from "../../Context";
+import { useNavigate } from "react-router-dom";
 
 function ModalUsuario({ usuario, actualizarTabla }) {
+    const context = useContext(ShoppingCarContext);
+    const navigate = useNavigate();
 
     const [formulario, setFormulario] = useState(
         {
@@ -23,13 +27,22 @@ function ModalUsuario({ usuario, actualizarTabla }) {
 
         };
         fetch(url, options).then(response => {
-            if (response.ok) {
+            if (response.status==200) {
                 Swal.fire({
                     title: "Ok!",
                     text: "Usuario Actualizado!",
                     icon: "success"
                 });
                 actualizarTabla();
+            }
+            if (response.status==403) {
+                Swal.fire({
+                    title: "La sesion terminó!",
+                    text: "Inicie sesion nuevamente",
+                    icon: "error"
+                });
+                context.handleSignOut();
+                navigate('/sign-in');
             }
         }).catch(e => {
             Swal.fire({
