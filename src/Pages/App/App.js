@@ -8,7 +8,6 @@ import { NotFound } from '../NotFound/NotFound';
 import { Payment } from '../Payment/Payment';
 import { Register } from '../Register/Register';
 import { ServiceDetail } from '../ServiceDetail/ServiceDetail';
-import { Shop } from '../Shop/Shop';
 import { ShoppingCar } from '../ShoppingCar/ShoppingCar';
 import { Success } from '../Success/Success';
 import './App.css';
@@ -16,6 +15,7 @@ import { NavBar } from '../../Components/NavBar/NavBar';
 import { SignIn } from '../SignIn/SignIn';
 import { Usuarios } from '../usuarios/Usuarios';
 import { Servicios } from '../servicios/Servicios';
+import { Shop } from '../Shop/Shop';
 
 const AppRoutes = () => {
   let routes = useRoutes([
@@ -26,7 +26,12 @@ const AppRoutes = () => {
     { path: '/payment', element: <Payment /> },
     { path: '/register', element: <Register /> },
     { path: '/service-detail', element: <ServiceDetail /> },
-    { path: '/shop', element: <Shop /> },
+    { path: '/shop', element: <Shop url="http://localhost:5000/services" title="" /> },
+    { path: '/cortes', element: <Shop url="http://localhost:5000/services/categoria/1" title="Cortes" /> },
+    { path: '/manicura', element: <Shop url="http://localhost:5000/services/categoria/2" title="Manicuras" /> },
+    { path: '/pedicura', element: <Shop url="http://localhost:5000/services/categoria/3" title="Pedicuras" /> },
+    { path: '/peinados', element: <Shop url="http://localhost:5000/services/categoria/4" title="Peinados" /> },
+    { path: '/maquillaje', element: <Shop url="http://localhost:5000/services/categoria/5" title="Maquillaje" /> },
     { path: '/shopping-car', element: <ShoppingCar /> },
     { path: '/success', element: <Success /> },
     { path: '/usuarios', element: <Usuarios /> },

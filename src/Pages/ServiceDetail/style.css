@@ -1,3 +1,6 @@
 .breadcrumb-nav {
     --bs-breadcrumb-divider: '>';
 }
+.carrusel {
+    max-width: 400px;
+}

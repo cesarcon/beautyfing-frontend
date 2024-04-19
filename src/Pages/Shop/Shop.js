@@ -6,13 +6,13 @@ import { ProductsList } from "../../Components/ProductList/ProductList";
 import { Product } from "../../Components/ProductCard/Product";
 import Swal from "sweetalert2";
 
-function Shop() {
+function Shop({url, title}) {
   const context = useContext(ShoppingCarContext);
 
   //Estado para guardar los productos consultados a la API
   const [listaProductos, setListaProductos] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:5000/services')
+    fetch(url)
       .then(response => response.json())
       .then(data => setListaProductos(data))
       .catch(e =>{
@@ -23,7 +23,7 @@ function Shop() {
         });
         console.error(e);
       });
-  }, []);
+  }, [title]);
   //Estado para filtrar los productos por la busqueda del usuario
   const filteredList = listaProductos.filter(producto => {
     let titulo = producto.nombre.toLowerCase();
@@ -33,6 +33,13 @@ function Shop() {
   return (
     <Layout>
       <Intro />
+      <div className="container">
+        <div className="row">
+          <div className=" d-flex justify-content-center">
+            <h1>{title}</h1>
+          </div>
+        </div>
+      </div>
       <ProductsList>
         {filteredList?.map(producto => (
           <Product
