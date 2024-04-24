@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "../../Components/Layout/Layout";
 import Swal from "sweetalert2";
 import { ShoppingCarContext } from "../../Context";
@@ -103,6 +103,7 @@ function SignIn() {
                         </div>
                         <button className="btn btn-primary mb-3" style={{ background: "#741b47", borderColor: "black" }} type="submit">Iniciar Sesión</button>
                     </form>
+                    <Link to="/register">No tienes una cuenta? Registrate aquí</Link>
                 </div>
             </div>
         </Layout>

@@ -47,7 +47,7 @@ function FeaturedUsers() {
                                         <div className="col-md-8">
                                             <div className="card-body">
                                                 <p className="card-text">
-                                                    <small className="text-body-secondary">Usuaria</small>
+                                                    <small className="text-body-secondary">Usuario</small>
                                                 </p>
                                                 <h5 className="card-title">{usuario.nombre}</h5>
                                                 <p className="card-text">

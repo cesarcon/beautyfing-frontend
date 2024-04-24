@@ -47,7 +47,7 @@ function Register() {
                     text: "Usuario creado correctamente!",
                     icon: "success"
                 });
-                navigate('/shop');
+                navigate('/sign-in');
             }
         } catch (error) {
             console.error('Error en la solicitud: ', error);
