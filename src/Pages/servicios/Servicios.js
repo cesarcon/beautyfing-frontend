@@ -13,9 +13,18 @@ function Servicios() {
         {
             idServicio: null,
             nombre: "", precio: 0, descripcion: "", urlImagen: "",
-            idCategoria: 0, idUsuario: context.user?.idUsuario
+            idCategoria: 1, idUsuario: context.user?.idUsuario
         };
 
+    const cerrarSesion = () => {
+        Swal.fire({
+            title: "La sesion terminó!",
+            text: "Inicia sesión nuevamente",
+            icon: "error"
+        });
+        context.handleSignOut();
+        navigate('/sign-in');
+    }
     const consultarServicios = () => {
         const options = {
             method: 'GET', // Método HTTP
@@ -26,8 +35,15 @@ function Servicios() {
         };
         const url = 'http://localhost:5000/services/'.concat(context.user?.idUsuario)
         fetch(url, options)
-            .then(response => response.json())
-            .then(data => setServicios(data))
+            .then(response => {
+                if (response.status == 403) {
+                    cerrarSesion();
+                }
+                return response.json();
+            })
+            .then(data => {
+                setServicios(data);
+            })
             .catch(e => {
                 Swal.fire({
                     icon: "error",
@@ -50,6 +66,9 @@ function Servicios() {
         };
         fetch(url, options)
             .then(response => {
+                if (response.status == 403) {
+                    cerrarSesion();
+                }
                 if (!response.ok) {
                     throw new Error('Hubo un problema con la petición: ' + response.status);
                 }
@@ -128,8 +147,8 @@ function Servicios() {
 
                                         <td><button onClick={() => {
                                             Swal.fire({
-                                                title: "Esta seguro de borrar?",
-                                                text: "si realiza este cambio no podrá revertirlo!",
+                                                title: "Estas seguro de borrar?",
+                                                text: "si realizas este cambio no podrás revertirlo!",
                                                 icon: "warning",
                                                 showCancelButton: true,
                                                 confirmButtonColor: "#3085d6",

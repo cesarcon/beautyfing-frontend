@@ -8,9 +8,9 @@ function Intro() {
           <div className="col col-sm-8">
             <h1>Bienvenid@</h1>
             <h4>
-              En esta plataforma encontraras ofertas de servicios de estetica y
+              En esta plataforma encontrarás ofertas de servicios de estetica y
               belleza que puedes seleccionar según tu criterio, existen
-              variedades en estilo, precios y calidad.
+              variedades en estilo, precios y todo de alta calidad.
             </h4>
           </div>
         </div>

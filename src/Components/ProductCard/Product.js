@@ -7,7 +7,7 @@ function Product({ product }) {
   return (
     <div className="col-12 col-xs-6 col-md-3 col-lg-2 mb-4">
       <div className="card">
-        <img src={product.urlImagen} className="card-img-top" alt="..." />
+        <img src={`data:image/jpeg;base64,${product.urlImagen}`} className="card-img-top" alt="..." />
         <div className="card-body">
           <h5 className="card-title">{product.precio}</h5>
           <p className="card-text">{product.nombre}</p>

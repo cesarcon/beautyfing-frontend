@@ -41,7 +41,7 @@ function FeaturedUsers() {
                                     <div className="row g-0">
                                         <div className="col-md-4">
                                             <img
-                                                src={usuario.foto}
+                                                src={`data:image/jpeg;base64,${usuario.foto}`}
                                                 className="img-fluid rounded-start" alt="..." />
                                         </div>
                                         <div className="col-md-8">

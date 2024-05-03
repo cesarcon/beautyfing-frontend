@@ -27,7 +27,7 @@ function ModalServicio({ servicio, actualizarTabla }) {
 
         };
         fetch(url, options).then(response => {
-            if (response.status==200) {
+            if (response.status == 200) {
                 Swal.fire({
                     title: "Ok!",
                     text: "Servicio Actualizado!",
@@ -35,7 +35,7 @@ function ModalServicio({ servicio, actualizarTabla }) {
                 });
                 actualizarTabla();
             }
-            if (response.status==201) {
+            if (response.status == 201) {
                 Swal.fire({
                     title: "Ok!",
                     text: "Servicio Creado!",
@@ -43,10 +43,10 @@ function ModalServicio({ servicio, actualizarTabla }) {
                 });
                 actualizarTabla();
             }
-            if (response.status==403) {
+            if (response.status == 403) {
                 Swal.fire({
-                    title: "La sesion terminó!",
-                    text: "Inicie sesion nuevamente",
+                    title: "La sesión terminó!",
+                    text: "Inicia sesión nuevamente",
                     icon: "error"
                 });
                 context.handleSignOut();
@@ -64,7 +64,7 @@ function ModalServicio({ servicio, actualizarTabla }) {
     return (
         <div className="modal-content">
             <div className="modal-header">
-                <h1 className="modal-title fs-5" id="exampleModalLabel">{servicio.idServicio ? 'Actualizando ': 'Creando '} servicio</h1>
+                <h1 className="modal-title fs-5" id="exampleModalLabel">{servicio.idServicio ? 'Actualizando ' : 'Creando '} servicio</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
@@ -88,15 +88,22 @@ function ModalServicio({ servicio, actualizarTabla }) {
                                     )
                                 }} value={formulario.descripcion} />
                             <label>Descripción</label>
-                        </div>                        
+                        </div>
                         <div className="col-12 pb-1 form-floating">
-                            <input className="form-control" type="text" placeholder="Ingrese la URL de la imagen del servicio"
+                            <input className="form-control" type="file" placeholder="Selecciona la imagen principal de tu servicio"
                                 onChange={(e) => {
-                                    setFormulario(
-                                        { ...formulario, ['urlImagen']: e.target.value }
-                                    )
-                                }} value={formulario.urlImagen} />
-                            <label>Imagen del servicio</label>
+                                    const file = e.target.files[0];
+                                    const reader = new FileReader();
+                                    reader.onload = () => {
+                                        const base64String = reader.result.split(',')[1]; // Eliminar el prefijo 'data:image/jpeg;base64,'
+                                        setFormulario(
+                                            { ...formulario, ['urlImagen']: base64String }
+                                        )
+                                    };
+                                    reader.readAsDataURL(file);
+                                    
+                                }} />
+                            <label>Carque aquí la imagen principal de su servicio</label>
                         </div>
                         <div className="col-12 col-lg-6 pb-1 form-floating">
                             <input className="form-control" type="number" placeholder="Precio unitario del servicio"
