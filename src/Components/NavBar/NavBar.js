@@ -47,6 +47,16 @@ function NavBar() {
               </NavLink>
             </li>
             <li className={`${context.user?.isSeller ? 'navbar-item' : 'visually-hidden'}`}>
+              <NavLink className="nav-link" to="/ventas">
+                Ventas
+              </NavLink>
+            </li>
+            <li className={`${context.user?.isBuyer ? 'navbar-item' : 'visually-hidden'}`}>
+              <NavLink className="nav-link" to="/compras">
+                Compras
+              </NavLink>
+            </li>
+            <li className={`${context.user?.isSeller ? 'navbar-item' : 'visually-hidden'}`}>
               <NavLink className="nav-link" to="/servicios">
                 Servicios
               </NavLink>

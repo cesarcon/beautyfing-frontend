@@ -16,6 +16,7 @@ import { SignIn } from '../SignIn/SignIn';
 import { Usuarios } from '../usuarios/Usuarios';
 import { Servicios } from '../servicios/Servicios';
 import { Shop } from '../Shop/Shop';
+import { Pedidos } from '../Pedidos/Pedidos';
 
 const AppRoutes = () => {
   let routes = useRoutes([
@@ -36,6 +37,8 @@ const AppRoutes = () => {
     { path: '/success', element: <Success /> },
     { path: '/usuarios', element: <Usuarios /> },
     { path: '/servicios', element: <Servicios /> },
+    { path: '/compras', element: <Pedidos url="http://localhost:5000/factura/compras/" /> },
+    { path: '/ventas', element: <Pedidos url="http://localhost:5000/factura/ventas/" /> },
     { path: '*', element: <NotFound /> },
   ])
   return routes;

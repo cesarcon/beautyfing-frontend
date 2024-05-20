@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ShoppingCarContext } from "../../Context";
 import { Layout } from "../../Components/Layout/Layout";
 import "./style.css";
@@ -6,9 +6,37 @@ import { Link } from "react-router-dom";
 
 function ServiceDetail() {
     const context = useContext(ShoppingCarContext);
-    console.log(context.productDetail)
     let product = context.productDetail;
-    console.log(product);
+    const [categoryName, setCategoryName] = useState("");
+    const [categoryUrl, setCategoryUrl] = useState("");
+
+    useEffect(() => {
+        switch (context.productDetail.idCategoria) {
+            case 1:
+                setCategoryName('Cortes');
+                setCategoryUrl('/cortes');
+                break;
+            case 2:
+                setCategoryName('Manicuras');
+                setCategoryUrl('/manicura');
+                break;
+            case 3:
+                setCategoryName('Pedicuras');
+                setCategoryUrl('/pedicura');
+                break;
+            case 4:
+                setCategoryName('Peinados');
+                setCategoryUrl('/peinados');
+                break;
+            case 5:
+                setCategoryName('Maquillaje');
+                setCategoryUrl('/maquillaje');
+                break;
+            default:
+                break;
+        }
+    }, [])
+
     return (
         <Layout>
             <section className="pt-3 pb-3">
@@ -16,7 +44,7 @@ function ServiceDetail() {
                     <nav className="breadcrumb-nav" aria-label="breadcrumb">
                         <ol className="breadcrumb">
                             <li className="breadcrumb-item"><Link to="/shop">Home</Link></li>
-                            <li className="breadcrumb-item"><Link to={"/shop"}>Category X</Link></li>
+                            <li className="breadcrumb-item"><Link to={categoryUrl}>{categoryName}</Link></li>
                             <li className="breadcrumb-item active" aria-current="page">{context.productDetail.nombre}</li>
                         </ol>
                     </nav>
@@ -30,7 +58,7 @@ function ServiceDetail() {
                                 </div>
                                 <div className="carousel-inner">
                                     <div className="carousel-item active">
-                                        <img src={context.productDetail.urlImagen} alt="Manicura 2" className="d-block w-100" />
+                                        <img src={`data:image/jpeg;base64,${context.productDetail.urlImagen}`} alt="Manicura 2" className="d-block w-100" />
                                     </div>
                                 </div>
                                 <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -53,21 +81,21 @@ function ServiceDetail() {
                                 <div className="mb-3">
                                     <label for="exampleFormControlInput1" className="form-label">Cantidad</label>
                                     <input type="number" className="form-control" id="exampleFormControlInput1"
-                                    onChange={ (event) => {
-                                        product.cant = event.target.value;
-                                    }} />
+                                        onChange={(event) => {
+                                            product.cant = event.target.value;
+                                        }} />
                                 </div>
                                 <hr />
                                 <Link to={"/shopping-car"}>
-                                <button type="button" className="btn btn-primary" style={{ background: '#741b47', borderColor: 'black' }}
-                                    onClick={() => {
-                                        const products = context.addedProducts;
-                                        products.push(product);
-                                        context.setAddedProducts(products);
-                                        context.setContador(context.addedProducts.length);
-                                      }}>
-                                    Agregar al carrito
-                                </button>
+                                    <button type="button" className="btn btn-primary" style={{ background: '#741b47', borderColor: 'black' }}
+                                        onClick={() => {
+                                            const products = context.addedProducts;
+                                            products.push(product);
+                                            context.setAddedProducts(products);
+                                            context.setContador(context.addedProducts.length);
+                                        }}>
+                                        Agregar al carrito
+                                    </button>
                                 </Link>
                                 <hr />
                             </div>

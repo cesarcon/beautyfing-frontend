@@ -2,8 +2,10 @@ import { useContext } from "react";
 import { ShoppingCarContext } from "../../Context";
 import { Layout } from "../../Components/Layout/Layout";
 import "./styles.css";
+import { useNavigate } from "react-router-dom";
 
 function ShoppingCar() {
+    const navigate = useNavigate();
     const context = useContext(ShoppingCarContext);
     console.log(context.addedProducts);
 
@@ -13,6 +15,9 @@ function ShoppingCar() {
         products.forEach(product => 
             sum += product.precio * product.cant);
             return sum;
+    }
+    const verificar = () => {
+        navigate('/check-customer');
     }
     return (
         <Layout>
@@ -35,7 +40,7 @@ function ShoppingCar() {
                                         product => (
                                             <tr>
                                                 <td>
-                                                    <img src={product.urlImagen} alt={product.nombre} />
+                                                    <img src={`data:image/jpeg;base64,${product.urlImagen}`} alt={product.nombre} />
                                                     <span className="px-3">{product.nombre}</span>
                                                 </td>
                                                 <td><strong>${product.precio}</strong></td>
@@ -80,7 +85,9 @@ function ShoppingCar() {
                                 </div>
                                 <br />
                                 <button type="button" className="btn btn-primary" style={{ background: "#741b47", borderColor: "black" }}
-                                    onclick="location.href='../check-customer/check-customer.html'">
+                                    onClick={()=> {
+                                        verificar();
+                                    }}>
                                     Verificar
                                 </button>
                                 <hr />

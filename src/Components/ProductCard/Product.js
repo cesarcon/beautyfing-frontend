@@ -6,11 +6,12 @@ function Product({ product }) {
   const context = useContext(ShoppingCarContext);
   return (
     <div className="col-12 col-xs-6 col-md-3 col-lg-2 mb-4">
-      <div className="card">
-        <img src={`data:image/jpeg;base64,${product.urlImagen}`} className="card-img-top" alt="..." />
+      <div className="card" style={{ height: '100%' }}>
+        <img src={`data:image/jpeg;base64,${product.urlImagen}`} className="card-img-top" alt="..." style={{ maxWidth: '100%', height: '50%', objectFit: 'cover' }} />
         <div className="card-body">
-          <h5 className="card-title">{product.precio}</h5>
-          <p className="card-text">{product.nombre}</p>
+          <h6 className="card-title">{product.precio}</h6>
+          <h5 className="card-title">{product.nombre}</h5>
+          <p className="card-text">Profesional: {product.usuario}</p>
           <div className="d-flex justify-content-between">
             <Link to="/service-detail" className="card-link"
             onClick={() => {

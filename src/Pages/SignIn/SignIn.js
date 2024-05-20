@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "../../Components/Layout/Layout";
 import Swal from "sweetalert2";
@@ -19,6 +19,23 @@ function SignIn() {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
+
+    //Función para actualizar la ubicacion del usuario
+    const updateLocation = (user) => {
+        const content = {
+            idUsuario: user,
+            latitud: context.latitud,
+            longitud: context.longitud
+        }
+        fetch('http://localhost:5000/users/location', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.getItem('token')
+            },
+            body: JSON.stringify(content) 
+        })
+    }
 
     // Función para manejar el envío del formulario
     const handleSubmit = async (event) => {
@@ -45,9 +62,13 @@ function SignIn() {
                     isBuyer: claims.isBuyer,
                     username: claims.username,
                     idUsuario: claims.idUsuario,
+                    email: claims.email,
+                    direccion: claims.direccion,
+                    ciudad: claims.ciudad
                 }));
                 sessionStorage.setItem('token', `Bearer ${token}`);
-                context.setUser(JSON.parse(sessionStorage.getItem('login')))
+                context.setUser(JSON.parse(sessionStorage.getItem('login')));
+                updateLocation(claims.idUsuario);
                 navigate('/shop');
             }
         } catch (error) {

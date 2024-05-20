@@ -12,7 +12,11 @@ function Shop({url, title}) {
   //Estado para guardar los productos consultados a la API
   const [listaProductos, setListaProductos] = useState([]);
   useEffect(() => {
-    fetch(url)
+    let urlFinal = url;
+    if (context.latitud && context.longitud) {
+      urlFinal = url.concat('?lat=').concat(context.latitud).concat('&lon=').concat(context.longitud);
+    }
+    fetch(urlFinal)
       .then(response => response.json())
       .then(data => setListaProductos(data))
       .catch(e =>{
