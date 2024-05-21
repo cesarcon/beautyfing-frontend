@@ -12,7 +12,7 @@ function CheckCustomer() {
         {
             email: user?.email,
             nombre: user?.username,
-            direccion: user?.direccion,
+            direccion: context.direccion ? context.direccion : user?.direccion,
             ciudad: user?.ciudad,
             barrio: ''
         }
@@ -25,7 +25,8 @@ function CheckCustomer() {
                 text: "Debes iniciar sesión y llenar todos los campos en envío y el correo para continuar"
             });
             return;
-        }        
+        } 
+        context.setDireccion(formulario.direccion);       
         navigate('/check-shipping');
     }
     

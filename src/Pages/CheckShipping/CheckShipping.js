@@ -29,7 +29,7 @@ function CheckShipping() {
                             <div className="mb-3">
                                 <div className="d-flex justify-content-between">
                                     <label for="exampleInputEmail1" className="form-label"><strong>Direccion de domicilio</strong></label>
-                                    <span>{user.direccion}</span>
+                                    <span>{context.direccion}</span>
                                     <Link to="/check-customer">Editar</Link>
                                 </div>
                             </div>

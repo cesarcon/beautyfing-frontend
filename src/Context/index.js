@@ -7,6 +7,7 @@ export function ShoppingCarProvider({ children }) {
     //Estados para capturar la ubicacion del usuario
     const [latitud, setLatitud] = useState(null);
     const [longitud, setLongitud] = useState(null);
+    const [direccion, setDireccion] = useState(null);
     
     //Estado de el valor a buscar
     const [searchValue, setSearchValue] = useState('');
@@ -80,7 +81,8 @@ export function ShoppingCarProvider({ children }) {
             user, setUser, handleSignOut,
             latitud, longitud,
             domicilio, setDomicilio,
-            subTotal, total
+            subTotal, total,
+            direccion, setDireccion
         }}>
             {children}
         </ShoppingCarContext.Provider>
